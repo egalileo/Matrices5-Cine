@@ -9,29 +9,33 @@ public class MatricesCine {
      * Ejercicio cine
      */
     public static void main(String[] args) {
-        String cine[][], salida = "", cualAsiento, cualLetra, cualNumero;
+        String cine[][];
         String butacas[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "K"};
+        int fila, columna, filas, columnas, opcion, cualFila = -1, cualColumna = -1;
         JTextArea hoja = new JTextArea();
-        int filas, columnas, fila, columna, opcion, cualFila = -1, cualColumna = -1;
-        boolean salir = false, encontrado = false;
+        String salida = "", cualBoleto, filaAsiento, columnaAsiento;
+        boolean salir = false, encontrado = false, devolucion = false;
 
         do {
-            filas = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el numero de filas (4 y 9)"));
-            columnas = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el numero de columnas (4 y 9)"));
-        } while ((filas < 4 || filas > 9) || (columnas < 4 || columnas > 9));
-
+            filas = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de filas (entre 5 y 9)"));
+            columnas = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de columnas ( entre 5 y 9)"));
+            if (filas < 5 || filas > 9) {
+                JOptionPane.showMessageDialog(null, "Error. Ingrese un valor de filas correcto");
+            } else if (columnas < 5 || columnas > 9) {
+                JOptionPane.showMessageDialog(null, "Error. Ingrese un valor de columnas correcto");
+            }
+        } while ((filas < 5 || filas > 9) || (columnas < 5 || columnas > 9));
         cine = new String[filas][columnas];
 
         for (fila = 0; fila < filas; fila++) {
             for (columna = 0; columna < columnas; columna++) {
-                cine[fila][columna] = butacas[fila] + String.valueOf(columna + 1);
+                cine[fila][columna] = butacas[fila] + (columna + 1);
             }
         }
 
-        while (salir == false) { //MENU
-            opcion = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la opcion que desea\n1. Ver sala\n2. Comprar boleto\n3. Devolver boleto\n4. Cambiar asiento\nCualquier otro para salir"));
-
-            if (opcion == 1) { // VER MATRIZ\
+        while (!salir) {
+            opcion = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la opcion que desea\n1. Ver sala\n2. Comprar boleto\n3. Devolucion de boleto\n4. Cambio de asiento"));
+            if (opcion == 1) { // ver sala
                 salida = "";
                 salida += "\t\tPANTALLA\n\t====================================\n\n";
                 for (fila = 0; fila < filas; fila++) {
@@ -42,7 +46,7 @@ public class MatricesCine {
                 }
                 hoja.setText(salida);
                 JOptionPane.showMessageDialog(null, hoja);
-            } else if (opcion == 2) { // COMPRAR BOLETO
+            } else if (opcion == 2) { //comprar boleto
                 salida = "";
                 salida += "\t\tPANTALLA\n\t====================================\n\n";
                 for (fila = 0; fila < filas; fila++) {
@@ -51,34 +55,29 @@ public class MatricesCine {
                     }
                     salida += "\n";
                 }
-                salida += "Cual asiento desea comprar?";
+                salida += "\nIngrese el asiento que desea comprar";
                 hoja.setText(salida);
-                cualAsiento = JOptionPane.showInputDialog(hoja);
-                cualAsiento = cualAsiento.toUpperCase();
+                cualBoleto = JOptionPane.showInputDialog(hoja).toUpperCase();
 
                 for (fila = 0; fila < filas; fila++) {
                     for (columna = 0; columna < columnas; columna++) {
-                        if (cualAsiento.equals(cine[fila][columna])) { //SOLO SI LO ENCUENTRO
-                            encontrado = true;
+                        if (cualBoleto.equals(cine[fila][columna])) {
                             cualFila = fila;
                             cualColumna = columna;
+                            encontrado = true;
                         }
                     }
                 }
 
-                if (encontrado = true) {
-                    if (cine[cualFila][cualColumna].equals("X")) { //asiento ocupado, no se puede vender
-                        JOptionPane.showMessageDialog(null, "Error. El asiento " + cualAsiento + " se encuentra ocupado");
-                    } else { // si puedo vender
-                        cine[cualFila][cualColumna] = "X";
-                        JOptionPane.showMessageDialog(null, "Asiento " + cualAsiento + " vendido");
-                    }
-                } else if (encontrado = false) {
-                    JOptionPane.showMessageDialog(null, "Error. El asiento " + cualAsiento + " No se encuentra en la sala");
+                if (encontrado) {
+                    JOptionPane.showMessageDialog(null, "Asiento #" + cualBoleto + " Asignado. que disfrute la funcion");
+                    cine[cualFila][cualColumna] = "X";
+                    encontrado = false;
+                } else {
+                    JOptionPane.showMessageDialog(null, "El asiento colocado, no se encunetra en la sala o ya se encuentra ocupado");
                 }
 
-            } else if (opcion == 3) { // DEVOLVER BOLETO
-                encontrado = false;
+            } else if (opcion == 3) {
                 salida = "";
                 salida += "\t\tPANTALLA\n\t====================================\n\n";
                 for (fila = 0; fila < filas; fila++) {
@@ -87,39 +86,89 @@ public class MatricesCine {
                     }
                     salida += "\n";
                 }
-                salida += "Cual asiento desea devolver?";
+                salida += "\nIngrese el asiento que desea devolver";
                 hoja.setText(salida);
-                cualAsiento = JOptionPane.showInputDialog(hoja);
-                cualAsiento = cualAsiento.toUpperCase();
-                cualLetra = String.valueOf(cualAsiento.charAt(0));
-                cualColumna = Integer.parseInt(String.valueOf(cualAsiento.charAt(1)));
+                cualBoleto = JOptionPane.showInputDialog(hoja).toUpperCase();
+                filaAsiento = String.valueOf(cualBoleto.charAt(0));
+                columnaAsiento = String.valueOf(cualBoleto.charAt(1));
 
                 for (fila = 0; fila < filas; fila++) {
-                    if (cualLetra.equals(butacas[fila])) { //encontro
-                        encontrado = true;
-                        cualFila = fila
+                    if (filaAsiento.equals(butacas[fila])) {
+                        cualFila = fila;
                     }
                 }
 
-                if (encontrado = true) {
-                    if (cine[cualFila][cualColumna - 1].equals("X")) { //asiento ocupado, si se puede devolver
-                        cine[cualFila][cualColumna - 1] = cualAsiento;
-                        JOptionPane.showMessageDialog(null, "Asiento " + cualAsiento + " devuelto");
-
-                    } else { // el asiento no ha sido comprado aun
-                        JOptionPane.showMessageDialog(null, "Error. El asiento " + cualAsiento + " no ha sido comprado, se encuentra vacio");
-                    }
-                } else if (encontrado = false) {
-                    JOptionPane.showMessageDialog(null, "Error. El asiento " + cualAsiento + " No se encuentra en la sala");
+                if (cine[cualFila][cualColumna].equals("X")) {
+                    JOptionPane.showMessageDialog(null, "Procesando devolucion del asiento " + filaAsiento + columnaAsiento);
+                    cine[cualFila][cualColumna] = cualBoleto;
+                } else {
+                    JOptionPane.showMessageDialog(null, "El asiento" + cualBoleto + " No fue encontrado, o no se encuentra ocupado");
                 }
 
-                System.out.println(cualAsiento);
-                System.out.println(cualFila);
-                System.out.println(cualColumna - 1);
+            } else if (opcion == 4) {
+                devolucion = false;
+                cualBoleto = "";
+                salida = "";
+                salida += "\t\tPANTALLA\n\t====================================\n\n";
+                for (fila = 0; fila < filas; fila++) {
+                    for (columna = 0; columna < columnas; columna++) {
+                        salida += cine[fila][columna] + "\t";
+                    }
+                    salida += "\n";
+                }
+                salida += "\nIngrese el asiento que desea cambiar";
+                hoja.setText(salida);
+                cualBoleto = JOptionPane.showInputDialog(hoja).toUpperCase();
+                filaAsiento = String.valueOf(cualBoleto.charAt(0));
+                columnaAsiento = String.valueOf(cualBoleto.charAt(1));
 
-            } else if (opcion == 4) { // CAMBIAR ASIENTO
+                for (fila = 0; fila < filas; fila++) {
+                    if (filaAsiento.equals(butacas[fila])) {
+                        cualFila = fila;
+                        cualColumna = Integer.parseInt(columnaAsiento) - 1;
+                    }
+                }
 
-            } else { // SALIR
+                if (cine[cualFila][cualColumna].equals("X")) {
+                    JOptionPane.showMessageDialog(null, "Procesando devolucion del asiento " + filaAsiento + columnaAsiento + "\n Preparese para cambiar de asiento");
+                    cine[cualFila][cualColumna] = cualBoleto;
+                    while (!devolucion) {
+                        salida = "";
+                        salida += "\t\tPANTALLA\n\t====================================\n\n";
+                        for (fila = 0; fila < filas; fila++) {
+                            for (columna = 0; columna < columnas; columna++) {
+                                salida += cine[fila][columna] + "\t";
+                            }
+                            salida += "\n";
+                        }
+                        salida += "\nIngrese el asiento que desea";
+                        hoja.setText(salida);
+                        cualBoleto = JOptionPane.showInputDialog(hoja).toUpperCase();
+
+                        for (fila = 0; fila < filas; fila++) {
+                            for (columna = 0; columna < columnas; columna++) {
+                                if (cualBoleto.equals(cine[fila][columna])) {
+                                    cualFila = fila;
+                                    cualColumna = columna;
+                                    encontrado = true;
+                                }
+                            }
+                        }
+
+                        if (encontrado) {
+                            JOptionPane.showMessageDialog(null, "Asiento #" + cualBoleto + " Asignado. que disfrute la funcion");
+                            cine[cualFila][cualColumna] = "X";
+                            encontrado = false;
+                            devolucion = true;
+                        } else {
+                            JOptionPane.showMessageDialog(null, "El asiento colocado, no se encuentra en la sala o ya se encuentra ocupado");
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "El asiento" + cualBoleto + " No fue encontrado, o no se encuentra ocupado");
+                }
+
+            } else {
                 salir = true;
             }
         }
