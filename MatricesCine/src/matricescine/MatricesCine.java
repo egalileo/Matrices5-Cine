@@ -95,17 +95,17 @@ public class MatricesCine {
                 cualColumna = Integer.parseInt(String.valueOf(cualAsiento.charAt(1)));
 
                 for (fila = 0; fila < filas; fila++) {
-                    if(cualLetra.equals(butacas[fila])){ //encontro
+                    if (cualLetra.equals(butacas[fila])) { //encontro
                         encontrado = true;
-                        cualFila = fila;
+                        cualFila = fila
                     }
                 }
-                
+
                 if (encontrado = true) {
-                    if (cine[cualFila][cualColumna-1].equals("X")) { //asiento ocupado, si se puede devolver
-                        cine[cualFila][cualColumna-1] = cualAsiento;
+                    if (cine[cualFila][cualColumna - 1].equals("X")) { //asiento ocupado, si se puede devolver
+                        cine[cualFila][cualColumna - 1] = cualAsiento;
                         JOptionPane.showMessageDialog(null, "Asiento " + cualAsiento + " devuelto");
-                        
+
                     } else { // el asiento no ha sido comprado aun
                         JOptionPane.showMessageDialog(null, "Error. El asiento " + cualAsiento + " no ha sido comprado, se encuentra vacio");
                     }
@@ -113,20 +113,10 @@ public class MatricesCine {
                     JOptionPane.showMessageDialog(null, "Error. El asiento " + cualAsiento + " No se encuentra en la sala");
                 }
 
-                
                 System.out.println(cualAsiento);
                 System.out.println(cualFila);
-                System.out.println(cualColumna-1);
+                System.out.println(cualColumna - 1);
 
-//                for (fila = 0; fila < filas; fila++) {
-//                    for (columna = 0; columna < columnas; columna++) {
-//                        if (cualAsiento.equals(cine[fila][columna])) { //SOLO SI LO ENCUENTRO
-//                            encontrado = true;
-//                            cualFila = fila;
-//                            cualColumna = columna;
-//                        }
-//                    }
-//                }
             } else if (opcion == 4) { // CAMBIAR ASIENTO
 
             } else { // SALIR
