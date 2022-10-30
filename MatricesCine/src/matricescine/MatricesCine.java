@@ -128,44 +128,48 @@ public class MatricesCine {
                         cualColumna = Integer.parseInt(columnaAsiento) - 1;
                     }
                 }
+                System.out.println(cualFila);
+                System.out.println(cualColumna);
 
-                if (cine[cualFila][cualColumna].equals("X")) {
-                    JOptionPane.showMessageDialog(null, "Procesando devolucion del asiento " + filaAsiento + columnaAsiento + "\n Preparese para cambiar de asiento");
-                    cine[cualFila][cualColumna] = cualBoleto;
-                    while (!devolucion) {
-                        salida = "";
-                        salida += "\t\tPANTALLA\n\t====================================\n\n";
-                        for (fila = 0; fila < filas; fila++) {
-                            for (columna = 0; columna < columnas; columna++) {
-                                salida += cine[fila][columna] + "\t";
+                if (cualFila >= filas || cualColumna >= columnas) {
+                    JOptionPane.showMessageDialog(null, "El asiento #" + cualBoleto + " No se encuentra en la sala");
+                } else {
+                    if (cine[cualFila][cualColumna].equals("X")) {
+                        JOptionPane.showMessageDialog(null, "Procesando devolucion del asiento " + filaAsiento + columnaAsiento + "\n Preparese para cambiar de asiento");
+                        cine[cualFila][cualColumna] = cualBoleto;
+                        while (!devolucion) {
+                            salida = "";
+                            salida += "\t\tPANTALLA\n\t====================================\n\n";
+                            for (fila = 0; fila < filas; fila++) {
+                                for (columna = 0; columna < columnas; columna++) {
+                                    salida += cine[fila][columna] + "\t";
+                                }
+                                salida += "\n";
                             }
-                            salida += "\n";
-                        }
-                        salida += "\nIngrese el asiento que desea";
-                        hoja.setText(salida);
-                        cualBoleto = JOptionPane.showInputDialog(hoja).toUpperCase();
+                            salida += "\nIngrese el asiento que desea";
+                            hoja.setText(salida);
+                            cualBoleto = JOptionPane.showInputDialog(hoja).toUpperCase();
 
-                        for (fila = 0; fila < filas; fila++) {
-                            for (columna = 0; columna < columnas; columna++) {
-                                if (cualBoleto.equals(cine[fila][columna])) {
-                                    cualFila = fila;
-                                    cualColumna = columna;
-                                    encontrado = true;
+                            for (fila = 0; fila < filas; fila++) {
+                                for (columna = 0; columna < columnas; columna++) {
+                                    if (cualBoleto.equals(cine[fila][columna])) {
+                                        cualFila = fila;
+                                        cualColumna = columna;
+                                        encontrado = true;
+                                    }
                                 }
                             }
-                        }
 
-                        if (encontrado) {
-                            JOptionPane.showMessageDialog(null, "Asiento #" + cualBoleto + " Asignado. que disfrute la funcion");
-                            cine[cualFila][cualColumna] = "X";
-                            encontrado = false;
-                            devolucion = true;
-                        } else {
-                            JOptionPane.showMessageDialog(null, "El asiento colocado, no se encuentra en la sala o ya se encuentra ocupado");
+                            if (encontrado) {
+                                JOptionPane.showMessageDialog(null, "Asiento #" + cualBoleto + " Asignado. que disfrute la funcion");
+                                cine[cualFila][cualColumna] = "X";
+                                encontrado = false;
+                                devolucion = true;
+                            } else {
+                                JOptionPane.showMessageDialog(null, "El asiento colocado, no se encuentra en la sala o ya se encuentra ocupado");
+                            }
                         }
                     }
-                } else {
-                    JOptionPane.showMessageDialog(null, "El asiento" + cualBoleto + " No fue encontrado, o no se encuentra ocupado");
                 }
 
             } else {
