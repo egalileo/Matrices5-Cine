@@ -134,7 +134,7 @@ public class MatricesCine {
                 if (cualFila >= filas || cualColumna >= columnas) {
                     JOptionPane.showMessageDialog(null, "El asiento #" + cualBoleto + " No se encuentra en la sala");
                 } else if(!cine[cualFila][cualColumna].equals("X")){
-                    JOptionPane.showMessageDialog(null, "El asiento #"+cualBoleto+"colocado, se encuentra vacio");
+                    JOptionPane.showMessageDialog(null, "El asiento #"+cualBoleto+" se encuentra vacio");
                 }else{
                     if (cine[cualFila][cualColumna].equals("X")) {
                         JOptionPane.showMessageDialog(null, "Procesando devolucion del asiento " + filaAsiento + columnaAsiento + "\n Preparese para cambiar de asiento");
